@@ -1,0 +1,141 @@
+:root {
+  color: #fff8e7;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Verdana', sans-serif;
+  background:
+    radial-gradient(circle at 18% 18%, rgba(255, 224, 136, 0.22), transparent 22%),
+    radial-gradient(circle at 82% 12%, rgba(103, 214, 255, 0.24), transparent 24%),
+    radial-gradient(circle at 50% 100%, rgba(29, 70, 110, 0.28), transparent 28%),
+    linear-gradient(180deg, #4679ab 0%, #25476f 38%, #13243f 100%);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#app {
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
+}
+
+body {
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  color: #fff8e7;
+  min-height: 100vh;
+}
+
+#app {
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+.app-shell {
+  display: grid;
+  gap: 12px;
+  justify-items: center;
+}
+
+.app-shell__frame {
+  position: relative;
+  border-radius: 34px;
+  padding: 14px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.28), rgba(255, 255, 255, 0.03)),
+    linear-gradient(180deg, #5e8fbd, #234267 62%, #1b3354);
+  box-shadow:
+    0 18px 40px rgba(7, 13, 28, 0.45),
+    0 0 0 2px rgba(255, 235, 183, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.45);
+}
+
+.game-root {
+  position: relative;
+  overflow: hidden;
+  border-radius: 22px;
+  border: 3px solid rgba(8, 18, 33, 0.76);
+  background:
+    radial-gradient(circle at top, rgba(255, 255, 255, 0.2), transparent 48%),
+    linear-gradient(180deg, #213c63 0%, #101b30 100%);
+  box-shadow:
+    inset 0 0 0 2px rgba(255, 240, 190, 0.12),
+    inset 0 -20px 32px rgba(6, 12, 23, 0.16);
+}
+
+.app-shell__shine,
+.app-shell__scanlines {
+  position: absolute;
+  inset: 14px;
+  border-radius: 22px;
+  pointer-events: none;
+}
+
+.app-shell__shine {
+  background: linear-gradient(120deg, rgba(255, 255, 255, 0.18), transparent 34%);
+  mix-blend-mode: screen;
+}
+
+.app-shell__scanlines {
+  background: repeating-linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.035) 0,
+    rgba(255, 255, 255, 0.035) 2px,
+    transparent 2px,
+    transparent 6px
+  );
+  opacity: 0.36;
+}
+
+.app-shell__caption {
+  margin: 0;
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: rgba(11, 22, 41, 0.54);
+  color: #ffe7ad;
+  font-size: 14px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.14),
+    0 8px 18px rgba(8, 14, 28, 0.16);
+  text-align: center;
+}
+
+canvas {
+  display: block;
+  width: min(100vw - 76px, 624px);
+  height: auto;
+  image-rendering: pixelated;
+}
+
+@media (max-width: 700px) {
+  #app {
+    padding: 12px;
+  }
+
+  .app-shell__frame {
+    padding: 10px;
+    border-radius: 24px;
+  }
+
+  .app-shell__shine,
+  .app-shell__scanlines {
+    inset: 10px;
+    border-radius: 16px;
+  }
+
+  .app-shell__caption {
+    font-size: 11px;
+    letter-spacing: 0.03em;
+    text-align: center;
+    max-width: min(100vw - 28px, 624px);
+  }
+
+  canvas {
+    width: min(100vw - 40px, 624px);
+  }
+}
