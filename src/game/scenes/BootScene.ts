@@ -7,6 +7,9 @@ export class BootScene extends Phaser.Scene {
     super('boot');
   }
 
+  preload(): void {
+    this.load.image('hero-art', 'art/bomb-blitz-hero.png');
+  }
   create(): void {
     this.cameras.main.setBackgroundColor('#16365d');
     createGeneratedAssets(this);

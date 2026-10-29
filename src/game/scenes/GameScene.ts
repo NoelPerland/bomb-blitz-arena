@@ -1,3 +1,4 @@
+import { movePlayer } from '../playerMovement';
 import Phaser from 'phaser';
 import { arcadeAudio } from '../../audio/ArcadeAudio';
 import { Hud } from '../../ui/Hud';
@@ -71,11 +72,10 @@ export class GameScene extends Phaser.Scene {
   private bombs = new Map<string, BombRuntime>();
   private powerups = new Map<string, PowerupRuntime>();
   private activeFlames: ExplosionRuntime[] = [];
-  private cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
-  private keys!: Record<string, Phaser.Input.Keyboard.Key>;
   private roundOutcome: RoundOutcome | null = null;
   private resultEvent: Phaser.Time.TimerEvent | null = null;
   private botDirector = createBotDirector();
+  private heldDirections = new Map<string, Direction>();
   private lastBombId = 0;
   private lastPowerupId = 0;
 
@@ -89,8 +89,6 @@ export class GameScene extends Phaser.Scene {
     this.rng = new Phaser.Math.RandomDataGenerator([Date.now().toString()]);
     this.botDirector = createBotDirector(() => this.rng.frac());
 
-    this.cursors = this.input.keyboard!.createCursorKeys();
-    this.keys = this.input.keyboard!.addKeys('W,A,S,D,SPACE,ENTER,R,T,ESC,M') as Record<string, Phaser.Input.Keyboard.Key>;
 
     this.createBackdrop();
     this.createLayers();
@@ -172,6 +170,16 @@ export class GameScene extends Phaser.Scene {
   }
 
   private registerInput(): void {
+    this.input.keyboard?.addCapture(['UP', 'DOWN', 'LEFT', 'RIGHT', 'SPACE']);
+    const directions: Record<string, Direction> = { ArrowLeft: 'left', a: 'left', ArrowRight: 'right', d: 'right', ArrowUp: 'up', w: 'up', ArrowDown: 'down', s: 'down' };
+    this.input.keyboard?.on('keydown', (event: KeyboardEvent) => {
+      const key = event.key.length === 1 ? event.key.toLowerCase() : event.key;
+      if (directions[key] && !this.heldDirections.has(key)) this.heldDirections.set(key, directions[key]);
+    });
+    this.input.keyboard?.on('keyup', (event: KeyboardEvent) => this.heldDirections.delete(event.key.length === 1 ? event.key.toLowerCase() : event.key));
+    const clear = () => this.heldDirections.clear();
+    window.addEventListener('blur', clear);
+    this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => { clear(); window.removeEventListener('blur', clear); });
     this.input.keyboard?.on('keydown-SPACE', () => {
       if (!this.roundOutcome) {
         const player = this.actors.find((actor) => actor.state.isHuman);
@@ -312,25 +320,22 @@ export class GameScene extends Phaser.Scene {
   }
 
   private resolveHumanIntent(): { direction: Direction; placeBomb: boolean } {
-    let direction: Direction = ((window as any).__BOMB_TOUCH__?.direction || 'none') as Direction;
-    if (this.cursors.left.isDown || this.keys.A.isDown) {
-      direction = 'left';
-    } else if (this.cursors.right.isDown || this.keys.D.isDown) {
-      direction = 'right';
-    } else if (this.cursors.up.isDown || this.keys.W.isDown) {
-      direction = 'up';
-    } else if (this.cursors.down.isDown || this.keys.S.isDown) {
-      direction = 'down';
-    }
-
-    return {
-      direction,
-      placeBomb: false,
-    };
+    const held = [...this.heldDirections.values()];
+    const keyboard = held[held.length - 1];
+    return { direction: keyboard || ((window as any).__BOMB_TOUCH__?.direction || 'none'), placeBomb: false };
   }
 
   private updateActorMovement(actor: ActorRuntime, deltaSeconds: number): void {
     const speed = actor.state.stats.moveSpeed;
+    if (actor.state.isHuman) {
+      const result = movePlayer(actor.avatar.x, actor.avatar.y + 8, actor.desiredDirection, actor.currentDirection, speed, deltaSeconds, TILE_SIZE, HUD_HEIGHT, (col, row) => this.canStandOnTile(actor, col, row));
+      actor.avatar.setPosition(result.x, result.y - 8);
+      actor.currentDirection = result.direction;
+      actor.avatar.setMotion(result.direction, result.moving);
+      const tile = worldToTile(result.x, result.y);
+      actor.state.col = tile.col; actor.state.row = tile.row;
+      return;
+    }
     const canTurn = isActorCentered(actor.avatar.x, actor.avatar.y + 8);
 
     if (canTurn) {

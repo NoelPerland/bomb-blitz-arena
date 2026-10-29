@@ -83,34 +83,28 @@ export function createGeneratedAssets(scene: Phaser.Scene): void {
 
   finalizeTexture(scene, 'floorTile', 48, 48, (graphics) => {
     graphics.fillStyle(PALETTE.floorLight, 1).fillRect(0, 0, 48, 48);
-    graphics.fillStyle(PALETTE.floorDark, 0.45).fillRect(0, 24, 48, 24);
-    graphics.fillStyle(0xffffff, 0.12).fillRect(0, 0, 48, 8);
-    graphics.lineStyle(2, 0xd49349, 0.35);
-    graphics.strokeRect(1, 1, 46, 46);
-    graphics.lineBetween(0, 24, 48, 24);
-    graphics.lineBetween(24, 0, 24, 48);
+    graphics.fillStyle(PALETTE.floorDark, 0.25).fillRoundedRect(2, 3, 44, 44, 8);
+    graphics.fillStyle(0xc7edbb, .6).fillRoundedRect(3, 2, 42, 37, 7);
+    graphics.lineStyle(1, 0x63b98c, .35).strokeRoundedRect(2, 2, 44, 44, 7);
+    graphics.fillStyle(0xf4f8ce, .55).fillEllipse(12, 11, 7, 3).fillEllipse(35, 32, 4, 2);
   });
 
   finalizeTexture(scene, 'solidTile', 48, 48, (graphics) => {
-    graphics.fillStyle(PALETTE.wallShadow, 1).fillRect(0, 0, 48, 48);
-    graphics.fillStyle(PALETTE.wallBase, 1).fillRoundedRect(4, 4, 40, 40, 8);
-    graphics.fillStyle(0xffffff, 0.18).fillRoundedRect(8, 8, 28, 10, 6);
-    graphics.fillStyle(0x254564, 0.75).fillRoundedRect(12, 24, 24, 12, 5);
-    graphics.fillStyle(0x1b334f, 1);
-    graphics.fillCircle(14, 14, 2);
-    graphics.fillCircle(34, 14, 2);
-    graphics.fillCircle(14, 34, 2);
-    graphics.fillCircle(34, 34, 2);
+    graphics.fillStyle(0x306b70).fillRoundedRect(1, 4, 46, 44, 10);
+    graphics.fillStyle(0x65b8b4).fillRoundedRect(2, 1, 44, 41, 9);
+    graphics.lineStyle(2, 0xb9ecdb, .8).strokeRoundedRect(5, 3, 38, 34, 7);
+    graphics.fillStyle(0xe0f4d5, .5).fillRoundedRect(9, 7, 25, 5, 3);
+    graphics.fillStyle(0x23697b, .25).fillRoundedRect(9, 28, 30, 5, 3);
   });
 
   finalizeTexture(scene, 'crateTile', 48, 48, (graphics) => {
-    graphics.fillStyle(0x6d3d19, 1).fillRoundedRect(5, 7, 38, 36, 6);
-    graphics.fillStyle(PALETTE.crateLight, 1).fillRoundedRect(7, 9, 34, 32, 4);
-    graphics.lineStyle(3, PALETTE.crateDark, 1);
-    graphics.strokeRoundedRect(7, 9, 34, 32, 4);
-    graphics.lineBetween(12, 14, 36, 36);
-    graphics.lineBetween(36, 14, 12, 36);
-    graphics.fillStyle(0xffffff, 0.18).fillRect(11, 12, 22, 6);
+    graphics.fillStyle(0x8d512d).fillRoundedRect(4, 7, 40, 39, 6);
+    graphics.fillStyle(0xedb866).fillRoundedRect(4, 3, 40, 38, 6);
+    graphics.lineStyle(2, 0xbd773b).strokeRoundedRect(7, 6, 34, 32, 3);
+    graphics.lineBetween(8, 17, 40, 17); graphics.lineBetween(8, 28, 40, 28);
+    graphics.lineStyle(6, 0xc58743).lineBetween(10, 34, 38, 10);
+    graphics.lineStyle(3, 0xffdf9b).lineBetween(10, 32, 37, 9);
+    graphics.fillStyle(0xffedb3).fillCircle(10, 10, 2).fillCircle(38, 34, 2);
   });
 
   finalizeTexture(scene, 'bomb', 32, 32, (graphics) => {
