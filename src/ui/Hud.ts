@@ -55,6 +55,7 @@ export class Hud extends Phaser.GameObjects.Container {
   }
 
   setValues(values: HudValues): void {
+    this.scene.game.events.emit('arena-stats', values);
     (Object.keys(values) as Array<keyof HudValues>).forEach((key) => {
       this.cards[key].value.setText(String(values[key]));
     });

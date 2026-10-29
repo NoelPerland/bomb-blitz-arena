@@ -202,7 +202,9 @@ export class GameScene extends Phaser.Scene {
       const toggle = this.children.getByName('mute-toggle');
       toggle?.emit('pointerdown');
     });
-    this.input.on('pointerdown', () => this.overlay.hide());
+    const place = () => { if(this.roundOutcome) return; const player=this.actors.find(a=>a.state.isHuman); if(player) this.tryPlaceBomb(player); };
+    window.addEventListener('bomb-place',place);
+    this.events.once(Phaser.Scenes.Events.SHUTDOWN,()=>window.removeEventListener('bomb-place',place));
   }
 
   private resetRound(): void {
@@ -310,7 +312,7 @@ export class GameScene extends Phaser.Scene {
   }
 
   private resolveHumanIntent(): { direction: Direction; placeBomb: boolean } {
-    let direction: Direction = 'none';
+    let direction: Direction = ((window as any).__BOMB_TOUCH__?.direction || 'none') as Direction;
     if (this.cursors.left.isDown || this.keys.A.isDown) {
       direction = 'left';
     } else if (this.cursors.right.isDown || this.keys.D.isDown) {
@@ -676,8 +678,8 @@ export class GameScene extends Phaser.Scene {
       this.overlay.show(
         this.roundOutcome.playerWon ? 'Victory!' : 'Defeat!',
         this.roundOutcome.playerWon
-          ? 'You survived the arena.\nPress Enter or R to run it back.'
-          : `${this.roundOutcome.winnerName} won the round.\nPress Enter or R to restart, Esc for title.`,
+          ? 'You survived the arena.\nReady for another round?'
+          : `${this.roundOutcome.winnerName} won the round.\nReady for a rematch?`,
         this.roundOutcome.playerWon ? 0x8cffb0 : 0xff8a78,
       );
       if (this.roundOutcome.playerWon) {

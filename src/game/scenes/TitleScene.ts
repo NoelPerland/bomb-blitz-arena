@@ -1,7 +1,7 @@
 import Phaser from 'phaser';
 import { arcadeAudio } from '../../audio/ArcadeAudio';
 import { MuteToggle } from '../../ui/MuteToggle';
-import { createActor, createCrate, drawFloorTile, drawPanel, drawWallTile } from '../../ui/drawables';
+import { createActor, createCrate, drawFloorTile, drawWallTile } from '../../ui/drawables';
 import { GAME_HEIGHT, GAME_WIDTH, GRID_HEIGHT, GRID_WIDTH, TILE_SIZE } from '../config';
 import { PALETTE, TEXT_STYLES } from '../theme';
 
@@ -19,14 +19,14 @@ export class TitleScene extends Phaser.Scene {
     this.drawHeroCard();
     this.drawMiniArena();
 
-    const startButton = this.makeButton(GAME_WIDTH / 2, 338, 'START MATCH', () => {
+    const startButton = this.makeButton(GAME_WIDTH / 2, 338, 'PLAY ARENA', () => {
       arcadeAudio.playMenu(this);
       arcadeAudio.stopMusic();
       this.scene.start('game');
     });
 
     const supportText = this.add
-      .text(GAME_WIDTH / 2, 379, 'Press Enter or Space to begin', {
+      .text(GAME_WIDTH / 2, 379, 'Tap Play · keyboard or touch controls', {
         ...TEXT_STYLES.hudLabel,
         fontSize: '14px',
         color: '#d7efff',
@@ -80,48 +80,11 @@ export class TitleScene extends Phaser.Scene {
   }
 
   private drawHeroCard(): void {
-    drawPanel(this, GAME_WIDTH / 2, 184, 476, 260, 'titleCard', 0.5).setDepth(1);
-
-    const badge = this.add
-      .text(GAME_WIDTH / 2, 82, 'FLASH-ERA ARENA SHOWDOWN', {
-        ...TEXT_STYLES.hudLabel,
-        fontSize: '14px',
-        color: '#16365d',
-      })
-      .setOrigin(0.5)
-      .setDepth(2);
-    badge.setBackgroundColor('#ffe3a1');
-    badge.setPadding(12, 4, 12, 4);
-
-    const title = this.add
-      .text(GAME_WIDTH / 2, 132, 'BOMB BLITZ', TEXT_STYLES.title)
-      .setOrigin(0.5)
-      .setDepth(2)
-      .setRotation(-0.012);
-    title.setShadow(0, 4, '#10213b', 0, false, true);
-
-    this.add
-      .text(GAME_WIDTH / 2, 170, 'One hero. Three bots. Last one standing wins.', {
-        ...TEXT_STYLES.subtitle,
-        fontSize: '16px',
-      })
-      .setOrigin(0.5)
-      .setDepth(2);
-
-    this.add
-      .text(
-        GAME_WIDTH / 2,
-        194,
-        'MOVE  ·  ARROWS / WASD\nBOMB  ·  SPACE\nRESTART  ·  R     MENU  ·  ESC',
-        {
-          ...TEXT_STYLES.subtitle,
-          fontSize: '14px',
-          lineSpacing: 5,
-          wordWrap: { width: 420 },
-        },
-      )
-      .setOrigin(0.5)
-      .setDepth(2);
+    this.add.graphics().fillStyle(0x15394f, 0.95).fillRoundedRect(36, 60, GAME_WIDTH-72, 225, 28).lineStyle(3,0x8ff1cb).strokeRoundedRect(36,60,GAME_WIDTH-72,225,28);
+    this.add.text(GAME_WIDTH/2,90,'THE LAST BLASTER STANDING',{...TEXT_STYLES.hudLabel,fontSize:'14px',color:'#9df4d5'}).setOrigin(.5);
+    this.add.text(GAME_WIDTH/2,139,'BOMB BLITZ',{...TEXT_STYLES.title,fontSize:'48px'}).setOrigin(.5);
+    this.add.text(GAME_WIDTH/2,185,'Outsmart three rivals. Light up the arena.',{...TEXT_STYLES.subtitle,fontSize:'18px'}).setOrigin(.5);
+    this.add.text(GAME_WIDTH/2,239,'MOVE  +  DROP  +  ESCAPE',{...TEXT_STYLES.subtitle,fontSize:'19px',color:'#ffe59a'}).setOrigin(.5);
   }
 
   private drawMiniArena(): void {
