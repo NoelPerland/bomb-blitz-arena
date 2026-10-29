@@ -1,17 +1,18 @@
 import Phaser from 'phaser';
 import { arcadeAudio } from '../audio/ArcadeAudio';
 import { TEXT_STYLES } from '../game/theme';
-import { drawPanel } from './drawables';
 
 export class MuteToggle extends Phaser.GameObjects.Container {
   private label: Phaser.GameObjects.Text;
-  private background: Phaser.GameObjects.Image;
+  private background: Phaser.GameObjects.Graphics;
 
   constructor(scene: Phaser.Scene, x: number, y: number) {
     super(scene, x, y);
     this.setName('mute-toggle');
 
-    this.background = drawPanel(scene, 0, 0, 92, 34, 'muteButton', 0.5);
+    this.background = scene.add.graphics();
+    this.background.fillStyle(0x16365d).fillRoundedRect(-46, -17, 92, 34, 10);
+    this.background.lineStyle(2, 0x8fe5ff).strokeRoundedRect(-46, -17, 92, 34, 10);
     this.label = scene.add.text(0, 0, this.getLabel(), {
       ...TEXT_STYLES.hudLabel,
       fontSize: '13px',

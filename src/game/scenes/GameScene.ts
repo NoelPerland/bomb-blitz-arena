@@ -95,7 +95,6 @@ export class GameScene extends Phaser.Scene {
     this.createBackdrop();
     this.createLayers();
     this.createHud();
-    this.createHelpText();
     this.registerInput();
     this.resetRound();
   }
@@ -168,26 +167,8 @@ export class GameScene extends Phaser.Scene {
     this.overlay = new OverlayPanel(this, GAME_WIDTH / 2, GAME_HEIGHT / 2 + 10);
     this.overlay.setDepth(100);
     this.overlay.hide();
-    const muteToggle = new MuteToggle(this, GAME_WIDTH - 54, 38);
+    const muteToggle = new MuteToggle(this, 72, 50);
     muteToggle.setName('mute-toggle');
-  }
-
-  private createHelpText(): void {
-    this.add
-      .text(
-        GAME_WIDTH / 2,
-        GAME_HEIGHT - 12,
-        'Arrow Keys or WASD move | Space bomb | R restart | Esc title | M mute',
-        {
-          fontFamily: '"Trebuchet MS", "Verdana", sans-serif',
-          fontSize: '12px',
-          color: '#fff1c2',
-          stroke: '#17345b',
-          strokeThickness: 3,
-          align: 'center',
-        },
-      )
-      .setOrigin(0.5, 1);
   }
 
   private registerInput(): void {

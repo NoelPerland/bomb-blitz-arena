@@ -19,14 +19,14 @@ export class TitleScene extends Phaser.Scene {
     this.drawHeroCard();
     this.drawMiniArena();
 
-    const startButton = this.makeButton(GAME_WIDTH / 2, 332, 'START MATCH', () => {
+    const startButton = this.makeButton(GAME_WIDTH / 2, 338, 'START MATCH', () => {
       arcadeAudio.playMenu(this);
       arcadeAudio.stopMusic();
       this.scene.start('game');
     });
 
     const supportText = this.add
-      .text(GAME_WIDTH / 2, 372, 'Enter or Space starts instantly', {
+      .text(GAME_WIDTH / 2, 379, 'Press Enter or Space to begin', {
         ...TEXT_STYLES.hudLabel,
         fontSize: '14px',
         color: '#d7efff',
@@ -80,7 +80,7 @@ export class TitleScene extends Phaser.Scene {
   }
 
   private drawHeroCard(): void {
-    drawPanel(this, GAME_WIDTH / 2, 188, 476, 246, 'titleCard', 0.5).setDepth(1);
+    drawPanel(this, GAME_WIDTH / 2, 184, 476, 260, 'titleCard', 0.5).setDepth(1);
 
     const badge = this.add
       .text(GAME_WIDTH / 2, 82, 'FLASH-ERA ARENA SHOWDOWN', {
@@ -101,9 +101,9 @@ export class TitleScene extends Phaser.Scene {
     title.setShadow(0, 4, '#10213b', 0, false, true);
 
     this.add
-      .text(GAME_WIDTH / 2, 176, 'One hero. Three bots. Zero safe corners once the fuses start.', {
+      .text(GAME_WIDTH / 2, 170, 'One hero. Three bots. Last one standing wins.', {
         ...TEXT_STYLES.subtitle,
-        fontSize: '18px',
+        fontSize: '16px',
       })
       .setOrigin(0.5)
       .setDepth(2);
@@ -111,13 +111,13 @@ export class TitleScene extends Phaser.Scene {
     this.add
       .text(
         GAME_WIDTH / 2,
-        244,
-        'Move with Arrow Keys or WASD\nDrop bombs with Space\nRestart with R | Return to title with Esc',
+        194,
+        'MOVE  ·  ARROWS / WASD\nBOMB  ·  SPACE\nRESTART  ·  R     MENU  ·  ESC',
         {
           ...TEXT_STYLES.subtitle,
-          fontSize: '18px',
-          lineSpacing: 8,
-          wordWrap: { width: 360 },
+          fontSize: '14px',
+          lineSpacing: 5,
+          wordWrap: { width: 420 },
         },
       )
       .setOrigin(0.5)
@@ -125,17 +125,17 @@ export class TitleScene extends Phaser.Scene {
   }
 
   private drawMiniArena(): void {
-    const arenaRoot = this.add.container(GAME_WIDTH / 2, GAME_HEIGHT - 120);
+    const arenaRoot = this.add.container(GAME_WIDTH / 2, GAME_HEIGHT - 100);
     arenaRoot.setDepth(3);
 
-    const pedestal = this.add.image(0, 22, 'pedestal').setDisplaySize(338, 92);
+    const pedestal = this.add.image(0, 18, 'pedestal').setDisplaySize(300, 82);
     pedestal.setAlpha(0.95);
     arenaRoot.add(pedestal);
 
     const arena = this.add.container(0, -2);
     arenaRoot.add(arena);
 
-    const tileScale = 0.42;
+    const tileScale = 0.35;
     const arenaWidth = GRID_WIDTH * (TILE_SIZE * tileScale);
     const arenaHeight = GRID_HEIGHT * (TILE_SIZE * tileScale);
     const startX = -arenaWidth / 2;
@@ -198,14 +198,6 @@ export class TitleScene extends Phaser.Scene {
       });
     });
 
-    const caption = this.add
-      .text(0, 74, '1 PLAYER VS 3 BOTS  |  BREAK CRATES  |  GRAB POWERUPS', {
-        ...TEXT_STYLES.hudLabel,
-        fontSize: '13px',
-        color: '#fff0b9',
-      })
-      .setOrigin(0.5);
-    arenaRoot.add(caption);
   }
 
   private makeButton(
