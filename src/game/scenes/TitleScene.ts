@@ -11,6 +11,7 @@ export class TitleScene extends Phaser.Scene {
   }
 
   create(): void {
+    this.game.events.emit('arena-title');
     arcadeAudio.bindUnlock(this);
     arcadeAudio.startTitleMusic(this);
     this.cameras.main.setBackgroundColor('#16365d');

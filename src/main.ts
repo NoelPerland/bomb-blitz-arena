@@ -26,6 +26,7 @@ statsBar.className = 'match-stats';
 statsBar.hidden = true;
 document.querySelector('.touch-controls')!.before(statsBar);
 let previousStats = '';
+game.events.on('arena-title', () => { statsBar.hidden = true; });
 game.events.on('arena-stats', (stats: Record<string, number>) => {
   statsBar.hidden = false;
   const next = JSON.stringify(stats);
