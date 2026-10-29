@@ -19,9 +19,10 @@ export class Hud extends Phaser.GameObjects.Container {
   constructor(scene: Phaser.Scene, x: number, y: number, initialValues: HudValues) {
     super(scene, x, y);
 
+    this.add(scene.add.rectangle(0, 0, 624, 72, 0x10243e, 0.95).setOrigin(0));
     this.add(drawPanel(scene, 0, 0, 624, 72, 'hudPanel'));
 
-    const title = scene.add.text(20, 11, 'ARENA READOUT', {
+    const title = scene.add.text(24, 11, 'ARENA READOUT', {
       ...TEXT_STYLES.hudLabel,
       fontSize: '15px',
       color: '#ffe9ad',
@@ -30,19 +31,20 @@ export class Hud extends Phaser.GameObjects.Container {
     this.add(title);
 
     const labels: Array<{ key: keyof HudValues; label: string; x: number }> = [
-      { key: 'bombs', label: 'BOMBS READY', x: 210 },
-      { key: 'fire', label: 'BLAST POWER', x: 320 },
-      { key: 'speed', label: 'SPEED', x: 430 },
-      { key: 'rivals', label: 'RIVALS', x: 540 },
+      { key: 'bombs', label: 'BOMBS', x: 238 },
+      { key: 'fire', label: 'BLAST', x: 330 },
+      { key: 'speed', label: 'SPEED', x: 422 },
+      { key: 'rivals', label: 'RIVALS', x: 514 },
     ];
 
     this.cards = labels.reduce<Record<keyof HudValues, StatCard>>((cards, item) => {
-      const label = scene.add.text(item.x, 16, item.label, {
+      const label = scene.add.text(item.x, 12, item.label, {
         ...TEXT_STYLES.hudLabel,
+        fontSize: '12px',
         color: '#a8ebff',
       });
       label.setOrigin(0.5, 0);
-      const value = scene.add.text(item.x, 32, '', TEXT_STYLES.hudValue).setOrigin(0.5, 0);
+      const value = scene.add.text(item.x, 33, '', TEXT_STYLES.hudValue).setOrigin(0.5, 0);
       this.add([label, value]);
       cards[item.key] = { value };
       return cards;

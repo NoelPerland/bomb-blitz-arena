@@ -15,7 +15,8 @@ app.innerHTML = `
       <div class="app-shell__shine"></div>
       <div class="app-shell__scanlines"></div>
     </div>
-    <p class="app-shell__caption">Local arcade showdown MVP | Arrow Keys or WASD | Space | Esc</p>
+    <p class="app-shell__caption">BOMB BLITZ · Move: Arrows / WASD · Bomb: Space · Restart: R · Menu: Esc</p>
+    <p class="app-shell__mobile-note">Best played on desktop with a keyboard.</p>
   </div>
 `;
 
