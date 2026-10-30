@@ -9,7 +9,8 @@
     "preview": "vite preview",
     "start": "npm run build && node server.js",
     "validate:ai": "tsx tests/aiValidation.ts",
-    "validate:movement": "tsx tests/playerMovement.ts"
+    "validate:movement": "tsx tests/playerMovement.ts",
+    "verify:outcomes": "node scripts/verify-outcomes.mjs"
   },
   "dependencies": {
     "phaser": "^3.90.0"
